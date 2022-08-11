@@ -1,0 +1,16 @@
+{
+  "name": "graphql-learn",
+  "version": "1.0.0",
+  "description": "learning to use graphql",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sadman Yasar Sayem",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.10.0",
+    "graphql": "^16.5.0"
+  }
+}
