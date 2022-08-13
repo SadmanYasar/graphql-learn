@@ -3,7 +3,7 @@ const Books = (props) => {
     return null
   }
 
-  const books = []
+  const books = props.books
 
   return (
     <div>

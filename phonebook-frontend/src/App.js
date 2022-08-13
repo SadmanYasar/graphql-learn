@@ -3,13 +3,14 @@ import { useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
-import { ALL_AUTHORS } from './queries'
+import { ALL_AUTHORS, ALL_BOOKS } from './queries'
 
 const App = () => {
   const [page, setPage] = useState('authors')
-  const result = useQuery(ALL_AUTHORS)
+  const authorResult = useQuery(ALL_AUTHORS)
+  const bookResult = useQuery(ALL_BOOKS)
 
-  if (result.loading) {
+  if (authorResult.loading || bookResult.loading) {
     return <div>loading...</div>
   }
 
@@ -21,9 +22,9 @@ const App = () => {
         <button onClick={() => setPage('add')}>add book</button>
       </div>
 
-      <Authors show={page === 'authors'} authors={result.data.allAuthors} />
+      <Authors show={page === 'authors'} authors={authorResult.data.allAuthors} />
 
-      <Books show={page === 'books'} />
+      <Books show={page === 'books'} books={bookResult.data.allBooks} />
 
       <NewBook show={page === 'add'} />
     </div>
