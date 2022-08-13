@@ -1,7 +1,10 @@
+import BornYearForm from "./BornYearForm"
+
 const Authors = (props) => {
   if (!props.show) {
     return null
   }
+
   const authors = props.authors
 
   return (
@@ -23,6 +26,7 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
+      <BornYearForm setError={props.setError} />
     </div>
   )
 }
