@@ -1,5 +1,22 @@
+require('dotenv').config()
 const { ApolloServer, gql, UserInputError } = require('apollo-server')
+const mongoose = require('mongoose')
+const Author = require('./models/author')
+const Book = require('./models/book')
 const { v1: uuid } = require('uuid')
+
+const MONGODB_URI = process.env.MONGODB_URI
+const JWT_SECRET = process.env.JWT_SECRET
+
+console.log('connecting to', MONGODB_URI)
+
+mongoose.connect(MONGODB_URI)
+    .then(() => {
+        console.log('connected to MongoDB')
+    })
+    .catch((error) => {
+        console.log('error connection to MongoDB:', error.message)
+    })
 
 let authors = [
     {
@@ -88,9 +105,9 @@ const typeDefs = gql`
   type Book {
     title: String!
     published: Int!
-    author: String!
-    id: ID!
+    author: Author!
     genres: [String!]!
+    id: ID!
   }
 
   type Author {
@@ -123,9 +140,9 @@ const typeDefs = gql`
 
 const resolvers = {
     Query: {
-        bookCount: () => books.length,
-        authorCount: () => authors.length,
-        allBooks: (root, args) => {
+        bookCount: async () => Book.collection.countDocuments,
+        authorCount: async () => Author.collection.countDocuments,
+        allBooks: async (root, args) => {
             if (args.author && args.genre) {
                 return books.filter(b => b.author === args.author && b.genres.includes(args.genre))
             }
@@ -140,7 +157,7 @@ const resolvers = {
 
             return books
         },
-        allAuthors: () => authors,
+        allAuthors: async () => authors,
     },
     Author: {
         bookCount: (root) => {
@@ -162,7 +179,7 @@ const resolvers = {
                 })
             }
 
-            const book = {...args, id: uuid()}
+            const book = { ...args, id: uuid() }
             books = books.concat(book)
 
             return book
@@ -174,7 +191,7 @@ const resolvers = {
                 return null
             }
 
-            const updatedAuthor = {...author, born: args.setBornTo}
+            const updatedAuthor = { ...author, born: args.setBornTo }
             authors = authors.map(a => a.name === updatedAuthor.name ? updatedAuthor : a)
 
             return updatedAuthor
