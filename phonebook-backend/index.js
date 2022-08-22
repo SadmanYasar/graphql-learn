@@ -140,8 +140,8 @@ const typeDefs = gql`
 
 const resolvers = {
     Query: {
-        bookCount: async () => Book.collection.countDocuments,
-        authorCount: async () => Author.collection.countDocuments,
+        bookCount: async () => Book.collection.countDocuments(),
+        authorCount: async () => Author.collection.countDocuments(),
         allBooks: async (root, args) => {
             if (args.author && args.genre) {
                 return books.filter(b => b.author === args.author && b.genres.includes(args.genre))
@@ -157,7 +157,7 @@ const resolvers = {
 
             return books
         },
-        allAuthors: async () => authors,
+        allAuthors: async () => Author.find({}),
     },
     Author: {
         bookCount: (root) => {
@@ -165,22 +165,16 @@ const resolvers = {
         }
     },
     Mutation: {
-        addBook: (root, args) => {
-            if (books.find(b => b.title === args.title)) {
-                throw new UserInputError('Book title must be unique', {
-                    invalidArgs: args.title,
+        addBook: async (root, args) => {
+            const book = new Book({ ...args })
+
+            try {
+                await book.save()
+            } catch (error) {
+                throw new UserInputError(error.message, {
+                    invalidArgs: args,
                 })
             }
-
-            if (authors.find(a => a.name === args.author) === undefined) {
-                authors = authors.concat({
-                    name: args.author,
-                    id: uuid(),
-                })
-            }
-
-            const book = { ...args, id: uuid() }
-            books = books.concat(book)
 
             return book
         },
