@@ -3,9 +3,10 @@ const jwt = require('jsonwebtoken')
 const { ApolloServer, UserInputError, gql } = require('apollo-server')
 const mongoose = require('mongoose')
 const Person = require('./models/person')
+const User = require('./models/user');
 const { v1: uuid } = require('uuid')
 
-const MONGODB_URI = process.env.MONGODB_URI
+const MONGODB_URI = process.env.MONGO_URI
 const JWT_SECRET = process.env.JWT_SECRET
 
 console.log('connecting to', MONGODB_URI)
