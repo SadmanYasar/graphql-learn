@@ -21,6 +21,7 @@ query {
       bookCount
     }
     published
+    genres
     id
   }
 }
@@ -49,6 +50,14 @@ mutation($name: String!, $setBornTo: Int!) {
     born
     name
     id
+  }
+}
+`
+
+export const LOGIN_USER = gql`
+mutation Login($username: String!, $password: String!) {
+  login(username: $username, password: $password) {
+    value
   }
 }
 `
