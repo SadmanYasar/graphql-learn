@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "server": "cd phonebook-backend && node index.js",
+    "client": "cd phonebook-frontend && npm start"
+  },
   "dependencies": {
     "jsonwebtoken": "^8.5.1"
   }

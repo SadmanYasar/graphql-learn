@@ -61,3 +61,12 @@ mutation Login($username: String!, $password: String!) {
   }
 }
 `
+
+export const ME = gql`
+query ME{
+  me {
+    favouriteGenre
+    username
+  }
+}
+`

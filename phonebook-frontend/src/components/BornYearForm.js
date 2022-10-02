@@ -8,6 +8,7 @@ const BornYearForm = ({ authors, setError }) => {
     const [setBirthYear, result] = useMutation(UPDATE_BIRTHYEAR, {
         onError: (error) => {
             setError('Invalid input')
+            console.log(error)
         }
     })
 
@@ -20,7 +21,7 @@ const BornYearForm = ({ authors, setError }) => {
     const submit = async (event) => {
         event.preventDefault()
 
-        setBirthYear({ variables: { name, setBornTo: parseInt(born) } })
+        await setBirthYear({ variables: { name, setBornTo: parseInt(born) } })
 
         setname('')
         setborn('')
