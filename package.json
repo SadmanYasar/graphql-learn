@@ -1,7 +1,9 @@
 {
   "scripts": {
     "server": "cd phonebook-backend && node index.js",
-    "client": "cd phonebook-frontend && npm start"
+    "client": "cd phonebook-frontend && npm start",
+    "server-working": "cd workings-backend && node index.js",
+    "client-working": "cd workings-frontend && npm run start"
   },
   "dependencies": {
     "jsonwebtoken": "^8.5.1"
